@@ -62,7 +62,10 @@ namespace AlphabetRando {
                     continue;
                 foreach(string letter in letters) {
                     if(RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get("Alphabet-" + letter) == 0) {
-                        text = RemoveLettersOutsideTags(text, letter.ToCharArray()[0]);
+                        text = RemoveLettersOutsideTags(text, letter[0]);
+                    }
+                    else if(text.StartsWith("Alphabet") && text.Length == 10) {
+                        text = text[9].ToString();
                     }
                 }
             }
@@ -71,9 +74,8 @@ namespace AlphabetRando {
 
         private static string RemoveLettersOutsideTags(string input, char letter) {
             if(input.StartsWith("Alphabet")) {
-                if(input.Length == 10)
-                    return input;
-                return input.Substring(0,10) + RemoveLettersOutsideTags(input.Substring(10), letter);
+                string prefix = letter == input[9] ? letter.ToString() : input.Substring(0, 10);
+                return prefix + (input.Length == 10 ? "" : RemoveLettersOutsideTags(input.Substring(10), letter));
             }
             StringBuilder sb = new(input.Length);
             bool insideTag = false;
