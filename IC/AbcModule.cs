@@ -18,7 +18,7 @@ namespace AlphabetRando {
             string setText = "set_text";
             tSetText = typeof(Text).GetMethod(setText, f);
             tmSetText = typeof(TextMesh).GetMethod(setText, f);
-            tmpSetText = typeof(TextMeshPro).GetMethod(setText, f);
+            tmpSetText = typeof(TMP_Text).GetMethod(setText, f);
         }
 
         public override void Initialize() {
@@ -100,7 +100,8 @@ namespace AlphabetRando {
                     continue;
                 sb.Append(c);
             }
-            return sb.ToString();
+            string output = sb.ToString();
+            return output.Length == 0 ? " " : output;
         }
     }
 }
