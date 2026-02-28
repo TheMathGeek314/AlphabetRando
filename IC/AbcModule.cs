@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using ItemChanger;
+using ItemChanger.Modules;
 using MonoMod.RuntimeDetour;
 using TMPro;
 using UnityEngine;
@@ -26,6 +28,10 @@ namespace AlphabetRando {
             tmDetour = new(tmSetText, typeof(AbcModule).GetMethod("ReplaceTextMesh", BindingFlags.NonPublic | BindingFlags.Static));
             tmpHook = new(tmpSetText, ReplaceTextMeshPro);
             origTM = tmDetour.GenerateTrampoline<Action<TextMesh, string>>();
+
+            if(ItemChangerMod.Modules?.Get<InventoryTracker>() is InventoryTracker it) {
+                it.OnGenerateFocusDesc += AddInvTracker;
+            }
         }
 
         public override void Unload() {
@@ -36,6 +42,14 @@ namespace AlphabetRando {
             tmpHook.Dispose();
             tmpHook = null;
             origTM = null;
+
+            if(ItemChangerMod.Modules?.Get<InventoryTracker>() is InventoryTracker it) {
+                it.OnGenerateFocusDesc -= AddInvTracker;
+            }
+        }
+
+        private void AddInvTracker(StringBuilder sb) {
+            sb.AppendLine("Letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
 
         private static void ReplaceText(Action<Text, string> orig, Text self, string origText) {
