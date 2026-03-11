@@ -4,12 +4,15 @@
         public bool DupeVowels = false;
         public bool Consonants = false;
         public bool DupeConsonants = false;
+        public bool Numbers = false;
+        public bool DupeNumbers = false;
 
-        public bool Any => Vowels || Consonants;
+        public bool Any => Vowels || Consonants || Numbers;
     }
 
     public class LocalSettings {
         public bool Vowels = false;
         public bool Consonants = false;
+        public bool Numbers = false;
     }
 }

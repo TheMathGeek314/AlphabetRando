@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
-using ItemChanger;
-using ItemChanger.Modules;
 using MonoMod.RuntimeDetour;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using ItemChanger;
+using ItemChanger.Modules;
 
 namespace AlphabetRando {
     internal class AbcModule: ItemChanger.Modules.Module {
@@ -14,6 +14,11 @@ namespace AlphabetRando {
         private static NativeDetour tmDetour;
         private static Action<TextMesh, string> origTM;
         private static MethodInfo tSetText, tmSetText, tmpSetText;
+
+        public delegate void ItemObtained(string item);
+        public static event ItemObtained OnItemObtained;
+        public static AbcModule Instance => ItemChangerMod.Modules.GetOrAdd<AbcModule>();
+        public void RecordItem(string item) => OnItemObtained?.Invoke(item);
 
         public static void PrepareModule() {
             BindingFlags f = BindingFlags.Public | BindingFlags.Instance;
@@ -50,6 +55,7 @@ namespace AlphabetRando {
 
         private void AddInvTracker(StringBuilder sb) {
             sb.AppendLine("Letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            sb.AppendLine("Numbers: 0123456789");
         }
 
         private static void ReplaceText(Action<Text, string> orig, Text self, string origText) {
@@ -69,7 +75,8 @@ namespace AlphabetRando {
                 return null;
             (bool, string[])[] tuples = [
                 (AlphabetRando.localSettings.Vowels, Consts.vowels),
-                (AlphabetRando.localSettings.Consonants, Consts.consonants)
+                (AlphabetRando.localSettings.Consonants, Consts.consonants),
+                (AlphabetRando.localSettings.Numbers, Consts.numbers)
             ];
             foreach((bool setting, string[] letters) in tuples) {
                 if(!setting)

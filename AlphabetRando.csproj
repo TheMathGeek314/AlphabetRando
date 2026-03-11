@@ -68,6 +68,9 @@
     <Reference Include="CondensedSpoilerLogger">
       <HintPath>..\_dependencies\CondensedSpoilerLogger.dll</HintPath>
     </Reference>
+    <Reference Include="FStats">
+      <HintPath>..\_dependencies\FStats.dll</HintPath>
+    </Reference>
     <Reference Include="GalaxyCSharp">
       <HintPath>$(HollowKnightRefs)/GalaxyCSharp.dll</HintPath>
     </Reference>

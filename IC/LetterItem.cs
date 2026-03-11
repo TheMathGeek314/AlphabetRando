@@ -4,7 +4,7 @@ using ItemChanger.Tags;
 using ItemChanger.UIDefs;
 
 namespace AlphabetRando {
-    internal class LetterItem: VoidItem {
+    internal class LetterItem: AbstractItem {
         public LetterItem(string letter) {
             name = "Alphabet-" + letter;
             InteropTag tag = GetOrAddTag<InteropTag>();
@@ -21,6 +21,10 @@ namespace AlphabetRando {
 
         public override bool Redundant() {
             return RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get(name) > 0;
+        }
+
+        public override void GiveImmediate(GiveInfo info) {
+            AbcModule.Instance.RecordItem(name);
         }
     }
 }

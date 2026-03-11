@@ -17,6 +17,9 @@ namespace AlphabetRando {
             if(ModHooks.GetMod("CondensedSpoilerLogger") is Mod)
                 CondensedSpoilerLogger.AddCategory("Alphabet", (args) => true, Consts.itemNames);
 
+            if(ModHooks.GetMod("FStatsMod") is Mod)
+                FStatsInterop.Hook();
+
             if(ModHooks.GetMod("RandoSettingsManager") is Mod)
                 RSMInterop.Hook();
         }

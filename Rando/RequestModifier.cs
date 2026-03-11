@@ -34,6 +34,11 @@ namespace AlphabetRando {
                     rb.AddItemByName("Alphabet-" + consonant, gs.DupeConsonants ? 2 : 1);
                 }
             }
+            if(gs.Numbers) {
+                foreach(string number in Consts.numbers) {
+                    rb.AddItemByName("Alphabet-" + number, gs.DupeNumbers ? 2 : 1);
+                }
+            }
         }
 
         private static void DefinePools(RequestBuilder rb) {
@@ -61,6 +66,7 @@ namespace AlphabetRando {
             GlobalSettings g = AlphabetRando.globalSettings;
             l.Vowels = g.Vowels;
             l.Consonants = g.Consonants;
+            l.Numbers = g.Numbers;
         }
     }
 }

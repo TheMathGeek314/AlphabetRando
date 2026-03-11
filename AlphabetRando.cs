@@ -5,7 +5,7 @@ using UnityEngine;
 namespace AlphabetRando {
     public class AlphabetRando: Mod, IGlobalSettings<GlobalSettings>, ILocalSettings<LocalSettings> {
         new public string GetName() => "AlphabetRando";
-        public override string GetVersion() => "1.0.2.0";
+        public override string GetVersion() => "1.1.0.0";
 
         public static GlobalSettings globalSettings { get; set; } = new();
         public void OnLoadGlobal(GlobalSettings s) => globalSettings = s;
