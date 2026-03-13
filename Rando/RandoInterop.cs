@@ -1,5 +1,8 @@
 ﻿using Modding;
+using System.IO;
 using ItemChanger;
+using RandomizerMod.Logging;
+using RandomizerMod.RandomizerData;
 using RandomizerMod.RC;
 
 namespace AlphabetRando {
@@ -11,6 +14,7 @@ namespace AlphabetRando {
 
             AbcModule.PrepareModule();
             RandoController.OnExportCompleted += AddAbcModule;
+            SettingsLog.AfterLogSettings += LogRandoSettings;
 
             DefineItems();
 
@@ -28,6 +32,11 @@ namespace AlphabetRando {
             if(!AlphabetRando.globalSettings.Any)
                 return;
             ItemChangerMod.Modules.GetOrAdd<AbcModule>();
+        }
+
+        private static void LogRandoSettings(LogArguments args, TextWriter w) {
+            w.WriteLine("Logging AlphabetRando settings:");
+            w.WriteLine(JsonUtil.Serialize(AlphabetRando.globalSettings));
         }
 
         public static void DefineItems() {

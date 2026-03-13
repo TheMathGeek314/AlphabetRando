@@ -1,4 +1,6 @@
-﻿namespace AlphabetRando {
+﻿using Newtonsoft.Json;
+
+namespace AlphabetRando {
     public class GlobalSettings {
         public bool Vowels = false;
         public bool DupeVowels = false;
@@ -7,6 +9,7 @@
         public bool Numbers = false;
         public bool DupeNumbers = false;
 
+        [JsonIgnore]
         public bool Any => Vowels || Consonants || Numbers;
     }
 
