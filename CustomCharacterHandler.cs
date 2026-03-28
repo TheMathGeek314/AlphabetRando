@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Satchel.BetterMenus;
+using System.Linq;
 
 namespace AlphabetRando {
     public static class CustomCharacterHandler {
@@ -21,9 +22,15 @@ namespace AlphabetRando {
             string previous = AlphabetRando.globalSettings.CustomCharacters;
             AlphabetRando.globalSettings.CustomCharacters = "";
             foreach(char c in content) {
-                if(!char.IsWhiteSpace(c) && c != '<' && c != '>') {
-                    AlphabetRando.globalSettings.CustomCharacters += c;
-                }
+                if(char.IsWhiteSpace(c))
+                    continue;
+                if(c == '<' || c == '>')
+                    continue;
+                if(Consts.allLetters.Contains(c.ToString().ToUpper()))
+                    continue;
+                if(AlphabetRando.globalSettings.CustomCharacters.Contains(c))
+                    continue;
+                AlphabetRando.globalSettings.CustomCharacters += c;
             }
             if(manualReload)
                 RandoInterop.DefineCustomCharacterItems(previous);
