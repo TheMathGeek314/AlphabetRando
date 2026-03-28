@@ -1,5 +1,4 @@
 ﻿using ItemChanger;
-using ItemChanger.Items;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
 
@@ -20,7 +19,9 @@ namespace AlphabetRando {
         }
 
         public override bool Redundant() {
-            return RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get(name) > 0;
+            if(Consts.itemNames.Contains(name))
+                return RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get(name) > 0;
+            return RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get("Alphabet-Custom_" + AlphabetRando.localSettings.CustomCharacters.IndexOf(name.Substring(10))) > 0;
         }
 
         public override void GiveImmediate(GiveInfo info) {

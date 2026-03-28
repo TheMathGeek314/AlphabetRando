@@ -19,7 +19,18 @@ namespace AlphabetRando {
                     info.getItemDef = () => new ItemDef() {
                         Name = letter,
                         Pool = "Alphabet",
-                        MajorItem = true,
+                        MajorItem = false,
+                        PriceCap = 26
+                    };
+                });
+            }
+            foreach(char letter in AlphabetRando.globalSettings.CustomCharacters) {
+                string name = "Alphabet-" + letter;
+                rb.EditItemRequest(name, info => {
+                    info.getItemDef = () => new ItemDef() {
+                        Name = name,
+                        Pool = "Alphabet",
+                        MajorItem = false,
                         PriceCap = 26
                     };
                 });
@@ -37,6 +48,11 @@ namespace AlphabetRando {
             if(gs.Numbers) {
                 foreach(string number in Consts.numbers) {
                     rb.AddItemByName("Alphabet-" + number, gs.DupeNumbers ? 2 : 1);
+                }
+            }
+            if(gs.Custom) {
+                foreach(char letter in AlphabetRando.globalSettings.CustomCharacters) {
+                    rb.AddItemByName("Alphabet-" + letter, gs.DupeCustom ? 2 : 1);
                 }
             }
         }
@@ -67,6 +83,8 @@ namespace AlphabetRando {
             l.Vowels = g.Vowels;
             l.Consonants = g.Consonants;
             l.Numbers = g.Numbers;
+            l.Custom = g.Custom && g.CustomCharacters.Length > 0;
+            l.CustomCharacters = g.CustomCharacters;
         }
     }
 }

@@ -17,6 +17,10 @@ namespace AlphabetRando {
                 Term term = lmb.GetOrAddTerm(name, TermType.Int);
                 lmb.AddItem(new SingleItem(name, new TermValue(term, 1)));
             }
+            for(int i = 0; i < AlphabetRando.globalSettings.CustomCharacters.Length; i++) {
+                Term term = lmb.GetOrAddTerm("Alphabet-Custom_" + i, TermType.Int);
+                lmb.AddItem(new SingleItem("Alphabet-" + AlphabetRando.globalSettings.CustomCharacters[i], new TermValue(term, 1)));
+            }
         }
     }
 }

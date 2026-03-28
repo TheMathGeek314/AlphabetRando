@@ -16,7 +16,11 @@ namespace AlphabetRando {
 
         public override void ReceiveSettings(GlobalSettings settings) {
             settings ??= new();
+            string previous = AlphabetRando.globalSettings.CustomCharacters;
             RandoMenuPage.Instance.abcMEF.SetMenuValues(settings);
+            AlphabetRando.globalSettings.CustomCharacters = settings.CustomCharacters;
+            RandoInterop.DefineCustomCharacterItems(previous);
+            Modding.Logger.Log($"[AlphabetRando] - Received custom characters >>> {settings.CustomCharacters} <<< from RandoSettingsManager");
         }
 
         public override bool TryProvideSettings(out GlobalSettings settings) {

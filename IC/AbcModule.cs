@@ -54,8 +54,13 @@ namespace AlphabetRando {
         }
 
         private void AddInvTracker(StringBuilder sb) {
-            sb.AppendLine("Letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            sb.AppendLine("Numbers: 0123456789");
+            LocalSettings ls = AlphabetRando.localSettings;
+            if(ls.Consonants || ls.Vowels)
+                sb.AppendLine("Letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            if(ls.Numbers)
+                sb.AppendLine("Numbers: 0123456789");
+            if(ls.Custom && ls.CustomCharacters.Length > 0)
+                sb.AppendLine("Custom: " + ls.CustomCharacters);
         }
 
         private static void ReplaceText(Action<Text, string> orig, Text self, string origText) {
@@ -71,12 +76,13 @@ namespace AlphabetRando {
         }
 
         private static string FilterOnTerms(string text) {
+            LocalSettings ls = AlphabetRando.localSettings;
             if(text == null)
                 return null;
             (bool, string[])[] tuples = [
-                (AlphabetRando.localSettings.Vowels, Consts.vowels),
-                (AlphabetRando.localSettings.Consonants, Consts.consonants),
-                (AlphabetRando.localSettings.Numbers, Consts.numbers)
+                (ls.Vowels, Consts.vowels),
+                (ls.Consonants, Consts.consonants),
+                (ls.Numbers, Consts.numbers)
             ];
             foreach((bool setting, string[] letters) in tuples) {
                 if(!setting)
@@ -88,6 +94,15 @@ namespace AlphabetRando {
                     else {
                         text = text.Replace("Alphabet-" + letter, letter);
                     }
+                }
+            }
+            if(ls.Custom) {
+                for(int i = 0; i < ls.CustomCharacters.Length; i++) {
+                    char letter = ls.CustomCharacters[i];
+                    if(RandomizerMod.RandomizerMod.RS.TrackerData.pm.Get("Alphabet-Custom_" + i) == 0)
+                        text = RemoveLettersOutsideTags(text, letter).Replace("Alphabet-" + letter, letter.ToString()).Replace("Alphabet " + letter, letter.ToString());
+                    else
+                        text = text.Replace("Alphabet-" + letter, letter.ToString());
                 }
             }
             return text;

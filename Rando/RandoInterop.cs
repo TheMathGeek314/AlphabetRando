@@ -44,6 +44,17 @@ namespace AlphabetRando {
                 LetterItem item = new(letter);
                 Finder.DefineCustomItem(item);
             }
+            DefineCustomCharacterItems("");
+        }
+
+        public static void DefineCustomCharacterItems(string previousChars) {
+            foreach(char prev in previousChars) {
+                Finder.UndefineCustomItem("Alphabet-" + prev);
+            }
+            foreach(char letter in AlphabetRando.globalSettings.CustomCharacters) {
+                LetterItem item = new(letter.ToString());
+                Finder.DefineCustomItem(item);
+            }
         }
     }
 }
